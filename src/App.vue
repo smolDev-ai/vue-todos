@@ -2,8 +2,14 @@
   <div id="app">
     <img src="./assets/logo.png" alt />
     <h1>Vue Todos</h1>
-    <TodoForm v-on:clear="clearCompleted" v-on:add="addTodo" />
-    <TodoList v-bind:todos="todos" />
+    <TodoForm
+      v-bind:isEditing="isEditing"
+      v-on:clear="clearCompleted"
+      v-on:add="addTodo"
+      v-bind:currentTodo="currentTodo"
+      v-on:update="updateTodo"
+    />
+    <TodoList v-bind:todos="todos" v-on:edit="toggleEdit" />
   </div>
 </template>
 
@@ -23,6 +29,29 @@ export default {
     },
     addTodo: function(newTodo) {
       this.todos = [newTodo, ...this.todos];
+    },
+    toggleEdit: function(id) {
+      this.isEditing = !this.isEditing;
+      this.todos = this.todos.map(todo => {
+        if (todo.id === id) {
+          this.currentTodo = todo;
+          return todo;
+        } else {
+          return todo;
+        }
+      });
+    },
+    updateTodo: function(updatedTodo) {
+      this.todos = this.todos.map(todo => {
+        if (todo.id === updatedTodo.id) {
+          return {
+            ...todo,
+            todo: updatedTodo.todo
+          };
+        } else {
+          return todo;
+        }
+      });
     }
   },
   data() {
@@ -43,7 +72,9 @@ export default {
           id: 3,
           completed: false
         }
-      ]
+      ],
+      isEditing: false,
+      currentTodo: ""
     };
   }
 };

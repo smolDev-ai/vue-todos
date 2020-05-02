@@ -1,7 +1,7 @@
 <template>
   <div class="todo" v-bind:class="{'isCompleted': todo.completed}">
     <h2 v-on:click="completeTodo">{{todo.todo}}</h2>
-    <button>Edit</button>
+    <button v-on:click="$emit('edit', todo.id)">Edit</button>
   </div>
 </template>
 
