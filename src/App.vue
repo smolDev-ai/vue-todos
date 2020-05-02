@@ -2,7 +2,7 @@
   <div id="app">
     <img src="./assets/logo.png" alt />
     <h1>Vue Todos</h1>
-    <TodoForm />
+    <TodoForm v-on:clear="clearCompleted" v-on:add="addTodo" />
     <TodoList v-bind:todos="todos" />
   </div>
 </template>
@@ -17,6 +17,14 @@ export default {
     TodoForm,
     TodoList
   },
+  methods: {
+    clearCompleted: function() {
+      this.todos = this.todos.filter(todo => !todo.completed);
+    },
+    addTodo: function(newTodo) {
+      this.todos = [newTodo, ...this.todos];
+    }
+  },
   data() {
     return {
       todos: [
@@ -28,7 +36,7 @@ export default {
         {
           todo: "Another Title",
           id: 2,
-          completed: false
+          completed: true
         },
         {
           todo: "And Another",

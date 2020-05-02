@@ -1,14 +1,31 @@
 <template>
-  <form>
-    <input type="text" name="todo" placeholder="...todo" />
+  <form @submit.prevent="create">
+    <input type="text" name="todo" v-model="todo" placeholder="...todo" />
     <button type="submit">Add Todo</button>
-    <button>Clear Completed</button>
+    <button @click.prevent="$emit('clear')">Clear Completed</button>
   </form>
 </template>
 
 <script>
 export default {
-  name: "TodoForm"
+  name: "TodoForm",
+  data() {
+    return {
+      todo: ""
+    };
+  },
+  methods: {
+    create: function() {
+      const newTodo = {
+        todo: this.todo,
+        id: Date.now(),
+        completed: false
+      };
+
+      this.$emit("add", newTodo);
+      this.todo = "";
+    }
+  }
 };
 </script>
 
